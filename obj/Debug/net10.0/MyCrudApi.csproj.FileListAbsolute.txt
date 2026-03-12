@@ -1,5 +1,6 @@
 C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\appsettings.json
+C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\MyCrudApi.staticwebassets.runtime.json
 C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\MyCrudApi.staticwebassets.endpoints.json
 C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\MyCrudApi.exe
 C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\MyCrudApi.deps.json
@@ -134,6 +135,7 @@ C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.AssemblyInfo.cs
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.csproj.CoreCompileInputs.cache
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.sourcelink.json
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -149,4 +151,3 @@ C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\refint\MyCrudApi.dll
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.pdb
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.genruntimeconfig.cache
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\ref\MyCrudApi.dll
-C:\Users\guilh\MyCrudApi\bin\Debug\net10.0\MyCrudApi.staticwebassets.runtime.json

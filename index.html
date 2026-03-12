@@ -8,13 +8,199 @@
     <title> CRUD de Produtos - </title>
 
     <style>
-
-
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container {max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h1, h2 {color: #333;}
+        form { margin-bottom: 20px; padding: 25px; background: #eee; border-radius: 5px; }
+        input { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box;}
+        button {padding: 10px 15px; background-color: #9e96d0; color white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        button:hover{background-color: #6a59b5; }
+        button.excluir{background-color: #d9534f}
+        button.excluir:hover {background-color: #c9302c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px;}
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .acoes button { margin-right: 5px; padding: 5px 10px; font-size: 12px; }
+    </style>
+        
 </head>
 
 <body>
+    <div class="container">
+        <h1>📦 Cadastro de Produtos </h1>
 
+        <h2 id="formTitulo">Adicionar Novo Produto</h2>
+        <form id="produtoForm">
 
+            <input type="hidden" id="produtoId">
+            <div>
+                <label for = "nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Ex: Teclado mecânico" required>
+            </div>
+
+            <div>
+                <label for="preco">Preço (R$):</label>
+                <input type="numer" id="preco" step="0.01" placeholder="Ex: 199.90" required>
+                
+            </div>
+
+            <div>
+                <label for="quantidade">Quantidade em Estoque</label>
+                <input type="number" id="quantidade" placeholder="Ex: 10" required>
+            </div>
+            <button type="submit" id="salvarBtn">Salvar</button>
+            <button type="button" id="cancelarBtn" style="background-color: #f0ad4e; display: none;">Cancelar Edição</button>
+
+        </form>
+
+        <h2>Lista de Produtos</h2>
+        <table> id="tabelaProdutos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Estoque</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela">
+               <!-- Sera preenchido pelo javascript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // URL base da API (ajuste a porta se necessario)
+        const apiUrl = 'https://localhost:5001/api/produtos'
+
+        // Elementos do DOM
+        const form = document.getElementById('produtoForm');
+        const produtoId = document.getElementById('produtoId');
+        const nome = document.getElementById('nome');
+        const preco = document.getElementById('preco');
+        const quantidade = document.getElementById('quantidade');
+        const corpoTabela = document.getElementById('corpoTabela');
+        const formTitulo = document.getElementById('formTitulo');
+        const salvarBtn = document.getElementById('salvarBtn');
+        const cancelarBtn = document.getElementById('cancelarBtn');
+
+        // FUNCAO PARA LISTAR TODOS OS PRODUTOS
+        async function listarProdutos(){
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Erro ao buscar produtos");
+                 const produtos = await response.json();
+                 renderizarTabela(produtos);
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        }
+         
+        // FUNCAO PARA RENDERIZAR A TABELA
+        function renderizarTabela(produtos) {
+            corpoTabela.innerHTML = '';
+            produtos.forEach(produto => {
+                const linha = document.createElement('tr');
+                linha.innerHTML = `
+                   <td>${produto.id}</td>
+                   <td>${produto.nome}</td<
+                    <td>R$ ${parsetFloat(produto.preco).toFixed(2)}</td>
+                    <td>${produto.quantidadeEmEstoque}</td>
+                    <td class='acoes'>
+                        <button onclick="editarProduto(${produto.id})">Editar</button>
+                        <button class="excluir" onclick="excluirProduto(${produto.id})">Excluir</button>
+                    </td>
+
+                    `;
+                    corpo.Tabela.appendChild(linha);
+            });
+        }
+
+        // FUNCAO PARA SALVAR (CRIAR OU ATUALIZAR)
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const produto = {
+                id: produtoId.value ? parseInt(produtoId.value) : 0,
+                nome: nome.value,
+                preco: parseFloat(preco.value),
+                quantidadeEmEstoque: parseInt(quantidade.value)
+            };
+
+            const metodo = produto.id ? 'PUT' : 'POST';
+            const url = produto.id ? `${apiUrl}/${produto.id}` : apiUrl;
+
+            try {
+                const response = await fetch(url, {
+                    method: metodo,
+                    headers: {'Content-Type': 'application/json' },
+                    body: JSON.stringify(produto)
+                })
+                
+                if (!response.ok) throw new Error('Erro ao salvar produto');
+
+                // LIMPAR FORMULARIO E RESETAR ESTADO
+                form.reset()
+                produtoId.value = '';
+                formTitulo.textContent = 'Adicionar Novo Produto';
+                salvarBtn.textContent = 'Salvar';
+                cancelarBtn.style.display = 'none';
+
+                // RECARREGAR A LISTA
+                listarProdutos();
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        })
+
+        // FUNCAO PARA PREENCHER O FORMULARIO AO EDITAR
+        window.editarProduto = async function(id) {
+
+            try {
+            const response = await fetch(`${apiUrl}/${id}`);
+            if (!response.ok) throw new Error('Erro ao buscar produto');
+            const produto = await response.json();
+
+            produtoId.value = produto.id;
+            nome.value = produto.nome;
+            preco.value = produto.preco
+            quantidade.value = produto.quantidadeEmEstoque;
+
+            formTitulo.textContent = 'Editar Produto';
+            salvarBtn.textContent = 'Atualizar';
+            cancelarBtn.style.display = 'inline-block';
+        } catch (error) {
+            alert('Erro: ' + error.message);
+        }
+    }
+
+    // FUNCAO PARA EXCLUIR
+    window.excluirProduto = async function(id) { 
+        ip (!confirm('Tem certeza que deseja excluir este produto')) return;
+
+        try {
+            const response = await fetch(`${apiUrl}/${id}`, {method: 'DELETE'});
+            if (!response.ok) throw new Error('Erro ao excluir produto');
+            listarProdutos(); // recarrega a lista
+        } catch (error) {
+            alert('Erro: ' + error.message);
+        }
+    }
+
+    // BOTAO CANCELAR EDICAO
+    cancelarBtn.addEventListener('click', () => {
+        form.reset();
+        produtoId.value = '';
+        formTitulo.textContent = 'Adicionar  Novo Produto';
+        salvarBtn.textContent = 'Salvar';
+        cancelarBtn.style.display = 'none';
+    });
+
+    // CARREGAR A LISTA QUANDO A PAGINA ABRIR
+    listarProdutos();
+
+        </script>
 </body>
 </html>
 

@@ -37,12 +37,15 @@ if (app.Environment.IsDevelopment())
         app.UseSwaggerUI();
 }
 
+else
+{
+    app.UseHttpsRedirection(); // so em producao
+}
 // Arquivos estaticos
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
 app.UseCors("PermitirTudo");
 app.UseAuthorization();
 app.MapControllers();
