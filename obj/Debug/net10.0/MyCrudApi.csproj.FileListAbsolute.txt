@@ -151,3 +151,4 @@ C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\refint\MyCrudApi.dll
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.pdb
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\MyCrudApi.genruntimeconfig.cache
 C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\ref\MyCrudApi.dll
+C:\Users\guilh\MyCrudApi\obj\Debug\net10.0\compressed\kgbg9wyxsz-{0}-inhowi03mq-inhowi03mq.gz
